@@ -20,6 +20,5 @@ class Compliance_Token extends Model
         'fullname',
         'email',
         'token',
-        'expires_at',
     ];
 }

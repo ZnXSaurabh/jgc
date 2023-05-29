@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('fullname',500)->nullable();
             $table->string('email');
             $table->string('token')->unique();
-            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
     }

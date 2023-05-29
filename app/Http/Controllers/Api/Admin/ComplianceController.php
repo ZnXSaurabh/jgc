@@ -18,49 +18,60 @@ class ComplianceController extends Controller
     public function apply(Request $request){
         try{
 
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email',
-            ]);
+            $key="fgfkhkudsghkjfgbkjflscxnjscbvkfgvkszdklcnmdklfjgirfgjkhgkj";
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'error' => 'Validation failed',
-                    'errors' => $validator->errors(),
-                ], 422); // 422 is the HTTP status code for unprocessable entity
-            }
+            $hashedToken = $request->bearerToken();
 
-
-            $randomNumber = rand(100, 999);
-
-            $token = Str::random($randomNumber);
-            $token = substr($token, 0, 182);
-
-            $compliance = new Compliance_Token;
-
-            $compliance->fullname = $request->fullname;
-            $compliance->email = $request->email;
-            $compliance->token = $token;
-
-            if($compliance->save()){
-
-                $url = 'https://jgc.com.sa/comliance-register/'.$token;
-
-                $mailStatus = Mail::to($request->email)->later(now()->addSeconds(3), new ComplianceApply($request->fullname, $url));
-
-                    $response = [
-                        'mailStatus' => $mailStatus,
-                        'message' => 'mail send successfully.',
-                    ];
-
-                    return response($response,200);
+            if($hashedToken == $key){
+                $validator = Validator::make($request->all(), [
+                    'email' => 'required|email',
+                ]);
+    
+                if ($validator->fails()) {
+                    return response()->json([
+                        'error' => 'Validation failed',
+                        'errors' => $validator->errors(),
+                    ], 422); 
+                }
+    
+    
+                $randomNumber = rand(100, 999);
+    
+                $token = Str::random($randomNumber);
+                $token = substr($token, 0, 182);
+    
+                $compliance = new Compliance_Token;
+    
+                $compliance->fullname = $request->fullname;
+                $compliance->email = $request->email;
+                $compliance->token = $token;
+    
+                if($compliance->save()){
+    
+                    $url = 'https://jgc.com.sa/comliance-register/'.$token;
+    
+                    $mailStatus = Mail::to($request->email)->later(now()->addSeconds(3), new ComplianceApply($request->fullname, $url));
+    
+                        $response = [
+                            'mailStatus' => $mailStatus,
+                            'message' => 'mail send successfully.',
+                        ];
+    
+                        return response($response,200);
+                }
+                else{
+                    
+                    return response([
+                        'errors' => $e->message(),
+                        'message' => "Internal Server Error.",
+                    ],500); 
+        
+                }
             }
             else{
-                
                 return response([
-                    'errors' => $e->message(),
-                    'message' => "Internal Server Error.",
-                ],500); 
-    
+                    'message' => "Unauthorized user.",
+                ],401);
             }
             
         }
@@ -75,26 +86,34 @@ class ComplianceController extends Controller
     public function getCompliance(Request $request, $token){
         try{
 
-            // $validator = Validator::make($request->all(), [
-            //     'mobile' => 'required|max:10|regex:/^[0-9]{10}$/',
-            //     'name' => 'required|max:255',
-            // ]);
-        
-            // if ($validator->fails()) {
-            //     return response()->json([
-            //         'error' => 'Validation failed',
-            //         'errors' => $validator->errors(),
-            //     ], 422); // 422 is the HTTP status code for unprocessable entity
-            // }
+            $key="fgfkhkudsghkjfgbkjflscxnjscbvkfgvkszdklcnmdklfjgirfgjkhgkj";
 
+            $hashedToken = $request->bearerToken();
 
+            if($hashedToken == $key){
+    
+                $complianceUser = Compliance_Token::where('token',$token)->first();
+
+                if($complianceUser){
                     $response = [
-                        'token' => $token,
-                        'message' => 'function called successfully.',
+                        'response' => $complianceUser,
+                        'message' => 'Data found successfully.',
+                    ];
+                    return response($response,200);
+                }
+                else{
+                    $response = [
+                        'message' => 'No such compliance report found.',
                     ];
 
-                    return response($response,200);
-                
+                    return response($response,422);
+                }
+            }
+            else{
+                return response([
+                    'message' => "Unauthorized user.",
+                ],401);
+            }
             
         }
         catch(Exception $e){
