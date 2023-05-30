@@ -65,10 +65,6 @@
 						<span class="error-message login-email-error" style="display: none;"></span>
 					</div>
 					<div class="remember-label ">
-					<div class="g-recaptcha" data-sitekey="6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg"></div>
-					<p id="checkCaptcha"  style="color:red;font-size:15px;"></p>
-					</div>
-					<div class="remember-label ">
 						<label class="signup-popup">Not Register Yet? <a href="javascript:void(0)" id="signup_model" class="text-danger">Register Here</a></label><br>
 						<label>For JGC Employees! <a href="{{ url('customLogin') }}" class="text-danger">Click Here</a></label>
 					</div>
@@ -102,8 +98,7 @@
 						<i class="la la-phone"></i>
 						<span class="error-message phone-error" style="display: none;"></span>
 					</div>
-				
-						<div class="g-recaptcha" data-sitekey="6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg"></div>
+					<div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
 						<p id="checkRegisterCaptcha"  style="color:red;font-size:15px;"></p>
 			
 					<button class="reg-form" id="submit_button" type="submit" style="margin-top: 93px;">Signup</button>
@@ -147,17 +142,10 @@
 					'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
 				}
 			});
-			grecaptcha.ready(function() {
 
-$('.login-form').submit(function(event) {
+			$('.login-form').submit(function(event) {
     event.preventDefault();
 
-	// Verify reCAPTCHA for Form 1
-    
-      grecaptcha.execute('6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg', { action: 'loginForm' })
-        .then(function(token) {
-          // Submit the form if reCAPTCHA was filled
-    if (token) {
         $('#login_button').prop('disabled', true).text('Please wait...');
         
         var postData = {
@@ -189,17 +177,11 @@ $('.login-form').submit(function(event) {
                 }
             }
         });
-    } else {
-        // reCAPTCHA not checked, display an error message or perform any other action
-		document.getElementById("checkCaptcha").innerHTML = "reCAPTCHA not checked!";
-    }
         });
-    
-    
 });
 
 
-$('#signin_model').click(function(){
+			$('#signin_model').click(function(){
 				$('.signup-popup-box').css('display','none');
 			});
 			$('#signup_model').click(function(){
@@ -217,14 +199,11 @@ $('.register-form').submit(function(event) {
     };
     $('#resendEmail').val(postData);
     
+	var recaptchaResponse = grecaptcha.getResponse();
 
-	// Verify reCAPTCHA for Form 2
-      grecaptcha.execute('6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg', { action: 'registerForm' })
-        .then(function(token) {
-          // Submit the form if reCAPTCHA was filled
-          if (token) {
+	if(recaptchaResponse && recaptchaResponse.length > 0){
 
-			postData['g-recaptcha-response'] = token;
+			postData['g-recaptcha-response'] = recaptchaResponse;
             // Process Form 2 submission
             $.ajax({
         type: 'POST',
@@ -256,18 +235,16 @@ $('.register-form').submit(function(event) {
             }
         }
     });
-          } else {
+}
+ else {
             // Display an error message or take appropriate action
 			document.getElementById("checkRegisterCaptcha").innerHTML = "reCAPTCHA not checked!";
         	$('#submit_button').prop('disabled', false).text('Signup');
           }
-        });
-
     
 });
 
-			});
-			
+
 			$('#resendEmail').click(function(event) {
 				$('#resendEmail').css('display','none');
 				$('#submit_button').prop('disabled',true).text('Please wait...');
@@ -302,7 +279,6 @@ $('.register-form').submit(function(event) {
 					},
 				});
 			});
-		});
 		// Navbar on scroll
 		$(document).ready(function () {
 		    var didScroll;

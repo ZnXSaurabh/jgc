@@ -18,7 +18,7 @@
           </div>
 
           <div class="form-group">
-            <div class="g-recaptcha" data-sitekey="6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg"></div>
+            <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
             <p id="checkCaptcha" style="color:red;font-size:15px;"></p>
           </div><br>
 
