@@ -20,6 +20,7 @@
 		<link rel="stylesheet" href="{{ asset('front/css/colors/colors.css') }}">
 		<link rel="stylesheet" href="{{ asset('front/css/bootstrap.css') }}">
 		<link rel="stylesheet" href="{{ asset('front/css/font-awesome.min.css') }}">
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		    <!-- jquery datepicker -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
@@ -131,7 +132,6 @@
 		<script src="{{ asset('front/js/slick.min.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/parallax.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/select-chosen.js') }}" type="text/javascript"></script>
-		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 			
 		
@@ -147,7 +147,8 @@
 					'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
 				}
 			});
-			$('.login-form').submit(function(event) {
+
+$('.login-form').submit(function(event) {
     event.preventDefault();
 
 	// Verify reCAPTCHA for Form 1
