@@ -24,7 +24,8 @@ class customLoginController extends Controller
     
         // Validate reCAPTCHA
         $response = $request->input('g-recaptcha-response');
-        $recaptchaSecretKey = '6LeE2TsmAAAAAN8pSuswFdERu_WXMjg7lLSZgb1l';
+        $recaptchaSecretKey = '6LeCTU0jAAAAAIv4yUaT8yOnHgj7msSQiysR4iy5';
+        dd($recaptchaSecretKey);
         $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => $recaptchaSecretKey,
             'response' => $response,

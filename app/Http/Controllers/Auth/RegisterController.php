@@ -62,7 +62,7 @@ class RegisterController extends Controller
 {   
     // Verify reCAPTCHA response
     $captchaResponse = $request->input('g-recaptcha-response');
-    $recaptcha = new ReCaptcha('6LeE2TsmAAAAAN8pSuswFdERu_WXMjg7lLSZgb1l');
+    $recaptcha = new ReCaptcha('6LeCTU0jAAAAAIv4yUaT8yOnHgj7msSQiysR4iy5');
     $recaptchaResponse = $recaptcha->verify($captchaResponse);
     
     if (!$recaptchaResponse->isSuccess()) {

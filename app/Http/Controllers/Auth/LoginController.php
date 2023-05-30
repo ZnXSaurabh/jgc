@@ -84,7 +84,7 @@ class LoginController extends Controller
         ]);
 
         $captchaResponse = $request->input('g-recaptcha-response');
-        $secretKey = '6LeE2TsmAAAAAN8pSuswFdERu_WXMjg7lLSZgb1l';
+        $secretKey = '6LeCTU0jAAAAAIv4yUaT8yOnHgj7msSQiysR4iy5';
         $url = 'https://www.google.com/recaptcha/api/siteverify';
 
         $data = [
