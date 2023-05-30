@@ -66,13 +66,16 @@
 					</div>
 					<div class="remember-label ">
 					<div class="g-recaptcha" data-sitekey="6LeE2TsmAAAAAGgM4VzY7RUsyrMows9exNl01c2V"></div>
+					<p id="checkCaptcha"  style="color:red;font-size:15px;"></p>
 					</div>
 					<div class="remember-label ">
-						<label class="signup-popup">Not Register Yet? <a href="javascript:void(0)" id="signup_model" class="text-danger">Register Here</a></label>
+						<label class="signup-popup">Not Register Yet? <a href="javascript:void(0)" id="signup_model" class="text-danger">Register Here</a></label><br>
+						<label>For JGC Employees! <a href="{{ url('customLogin') }}" class="text-danger">Click Here</a></label>
 					</div>
-					<button class="log-form" id="login_button" type="submit" >Login</button>
+					<button class="log-form" id="login_button" type="submit"  >Login</button>
 					</br>
 					<div classNmae="text-center">
+				
 					<a href="#" id="resendLoginEmail" value="" class="text-danger text-center" style="display:none">Resend Email</a>
 					</div>
 				</form>
@@ -178,7 +181,7 @@
         });
     } else {
         // reCAPTCHA not checked, display an error message or perform any other action
-        alert("reCAPTCHA not checked");
+		document.getElementById("checkCaptcha").innerHTML = "reCAPTCHA not checked!";
     }
 });
 

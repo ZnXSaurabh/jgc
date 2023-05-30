@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\customLoginController;
 use App\Http\Controllers\Common\KfupmController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -24,6 +25,9 @@ Auth::routes();
 
 Auth::routes(['verify' => true]);
 
+//custom login file
+Route::get('/customLogin', [customLoginController::class, 'customLoginView'])->name('customLogin');
+Route::post('/customLogin', [customLoginController::class, 'customLogin'])->name('customLogin');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
