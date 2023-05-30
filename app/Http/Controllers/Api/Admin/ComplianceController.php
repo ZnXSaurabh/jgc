@@ -18,7 +18,7 @@ class ComplianceController extends Controller
     public function apply(Request $request){
         try{
 
-            $key="fgfkhkudsghkjfgbkjflscxnjscbvkfgvkszdklcnmdklfjgirfgjkhgkj";
+            $key="fbuiasytf76weft4fygwe3r976fg3ry7fgwr97yrg3r7fybreyg34rfyg3yrfgreyfg3796gf8ryrfg3487";
 
             $hashedToken = $request->bearerToken();
 
@@ -86,7 +86,7 @@ class ComplianceController extends Controller
     public function getCompliance(Request $request, $token){
         try{
 
-            $key="fgfkhkudsghkjfgbkjflscxnjscbvkfgvkszdklcnmdklfjgirfgjkhgkj";
+            $key="fbuiasytf76weft4fygwe3r976fg3ry7fgwr97yrg3r7fybreyg34rfyg3yrfgreyfg3796gf8ryrfg3487";
 
             $hashedToken = $request->bearerToken();
 
