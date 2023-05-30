@@ -80,35 +80,34 @@ class LoginController extends Controller
     {   
         $this->validate($request, [
             'email' => 'required|email|max:255|exists:users,email',
-            'g-recaptcha-response' => 'required',
         ]);
 
-        $captchaResponse = $request->input('g-recaptcha-response');
-        $secretKey = config('services.recaptcha.secret_key');
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        // $captchaResponse = $request->input('g-recaptcha-response');
+        // $secretKey = config('services.recaptcha.secret_key');
+        // $url = 'https://www.google.com/recaptcha/api/siteverify';
 
-        $data = [
-            'secret' => $secretKey,
-            'response' => $captchaResponse,
-            'remoteip' => $request->ip(),
-        ];
+        // $data = [
+        //     'secret' => $secretKey,
+        //     'response' => $captchaResponse,
+        //     'remoteip' => $request->ip(),
+        // ];
 
-        $options = [
-            'http' => [
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
-                'content' => http_build_query($data),
-            ],
-        ];
+        // $options = [
+        //     'http' => [
+        //         'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+        //         'method' => 'POST',
+        //         'content' => http_build_query($data),
+        //     ],
+        // ];
 
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        $response = json_decode($result);
+        // $context = stream_context_create($options);
+        // $result = file_get_contents($url, false, $context);
+        // $response = json_decode($result);
 
-        if (!$response || !$response->success) {
-            // reCAPTCHA validation failed
-            return redirect()->back()->withErrors(['captcha' => 'The reCAPTCHA verification failed.']);
-        }
+        // if (!$response || !$response->success) {
+        //     // reCAPTCHA validation failed
+        //     return redirect()->back()->withErrors(['captcha' => 'The reCAPTCHA verification failed.']);
+        // }
 
         $user = User::where('email', $request->email)->where('deleted_at', NULL)->first();
         UserToken::create([
