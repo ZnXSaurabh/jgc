@@ -27,7 +27,7 @@ Auth::routes(['verify' => true]);
 
 //custom login file
 Route::get('/customLogin', [customLoginController::class, 'customLoginView'])->name('customLogin');
-Route::post('/customLogin', [customLoginController::class, 'customLogin'])->name('customLogin');
+Route::post('/customLogin', [customLoginController::class, 'customLogin']);
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
