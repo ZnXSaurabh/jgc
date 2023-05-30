@@ -65,7 +65,7 @@
 						<span class="error-message login-email-error" style="display: none;"></span>
 					</div>
 					<div class="remember-label ">
-					<div class="g-recaptcha" data-sitekey="6LeCTU0jAAAAAB0U-7D-eLD_GdyHNQm290N6bwDE"></div>
+					<div class="g-recaptcha" data-sitekey="6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg"></div>
 					<p id="checkCaptcha"  style="color:red;font-size:15px;"></p>
 					</div>
 					<div class="remember-label ">
@@ -103,7 +103,7 @@
 						<span class="error-message phone-error" style="display: none;"></span>
 					</div>
 				
-						<div class="g-recaptcha" data-sitekey="6LeCTU0jAAAAAB0U-7D-eLD_GdyHNQm290N6bwDE"></div>
+						<div class="g-recaptcha" data-sitekey="6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg"></div>
 						<p id="checkRegisterCaptcha"  style="color:red;font-size:15px;"></p>
 			
 					<button class="reg-form" id="submit_button" type="submit" style="margin-top: 93px;">Signup</button>
@@ -152,7 +152,7 @@
 
 	// Verify reCAPTCHA for Form 1
     grecaptcha.ready(function() {
-      grecaptcha.execute('6LeCTU0jAAAAAB0U-7D-eLD_GdyHNQm290N6bwDE', { action: 'loginForm' })
+      grecaptcha.execute('6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg', { action: 'loginForm' })
         .then(function(token) {
           // Submit the form if reCAPTCHA was filled
     if (token) {
@@ -219,7 +219,7 @@ $('.register-form').submit(function(event) {
 
 	// Verify reCAPTCHA for Form 2
     grecaptcha.ready(function() {
-      grecaptcha.execute('6LeCTU0jAAAAAB0U-7D-eLD_GdyHNQm290N6bwDE', { action: 'registerForm' })
+      grecaptcha.execute('6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg', { action: 'registerForm' })
         .then(function(token) {
           // Submit the form if reCAPTCHA was filled
           if (token) {

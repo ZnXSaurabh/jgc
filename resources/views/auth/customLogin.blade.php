@@ -18,7 +18,7 @@
           </div>
 
           <div class="form-group">
-            <div class="g-recaptcha" data-sitekey="6LeCTU0jAAAAAB0U-7D-eLD_GdyHNQm290N6bwDE"></div>
+            <div class="g-recaptcha" data-sitekey="6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg"></div>
             <p id="checkCaptcha" style="color:red;font-size:15px;"></p>
           </div><br>
 
