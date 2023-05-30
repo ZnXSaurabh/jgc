@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use ReCaptcha\ReCaptcha;
+use ReCaptcha\Response as ReCaptchaResponse;
+use Illuminate\Support\Facades\Http;
 
 class customLoginController extends Controller
 {
@@ -18,21 +21,30 @@ class customLoginController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
         $staticPassword = 'Giks@123';
-
+    
+        // Validate reCAPTCHA
+        $response = $request->input('g-recaptcha-response');
+        $recaptchaSecretKey = '6LeE2TsmAAAAAN8pSuswFdERu_WXMjg7lLSZgb1l';
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => $recaptchaSecretKey,
+            'response' => $response,
+            'remoteip' => $request->ip()
+        ]);
+    
+        if (!$recaptchaResponse['success']) {
+            throw ValidationException::withMessages(['recaptcha' => 'Please check the reCAPTCHA.']);
+        }
+    
         // Find the user with the provided email
         $user = User::where('email', $email)->first();
-
+    
         if ($user && $password === $staticPassword) {
-
-            // dd($user);
-
             // Authentication successful
             // Perform any additional logic here
-
+    
             Auth::login($user);
-
+    
             if ($user->hasRole(['Super Admin', 'Admin', 'HR Manager', 'HR', 'Vendor'])) {
-                // dd($user);
                 return redirect('/common/dashboard');
             } elseif ($user->hasRole('Candidate')) {
                 // Check if the candidate profile is complete
@@ -43,11 +55,10 @@ class customLoginController extends Controller
                 return redirect('/common/candidate-profile');
             }
         }
-
+    
         // Authentication failed
-        return redirect()->back()->withInput()->withErrors(['email' => 'The email address or password is invalid']);
-
-
+        throw ValidationException::withMessages(['email' => 'The email address or password is invalid']);
     }
+    
     
 }
