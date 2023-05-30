@@ -20,7 +20,6 @@
 		<link rel="stylesheet" href="{{ asset('front/css/colors/colors.css') }}">
 		<link rel="stylesheet" href="{{ asset('front/css/bootstrap.css') }}">
 		<link rel="stylesheet" href="{{ asset('front/css/font-awesome.min.css') }}">
-		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		    <!-- jquery datepicker -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
@@ -132,6 +131,7 @@
 		<script src="{{ asset('front/js/slick.min.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/parallax.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/select-chosen.js') }}" type="text/javascript"></script>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 			
 		
@@ -147,12 +147,13 @@
 					'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
 				}
 			});
+			grecaptcha.ready(function() {
 
 $('.login-form').submit(function(event) {
     event.preventDefault();
 
 	// Verify reCAPTCHA for Form 1
-    grecaptcha.ready(function() {
+    
       grecaptcha.execute('6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg', { action: 'loginForm' })
         .then(function(token) {
           // Submit the form if reCAPTCHA was filled
@@ -193,13 +194,12 @@ $('.login-form').submit(function(event) {
 		document.getElementById("checkCaptcha").innerHTML = "reCAPTCHA not checked!";
     }
         });
-    });
     
     
 });
 
 
-			$('#signin_model').click(function(){
+$('#signin_model').click(function(){
 				$('.signup-popup-box').css('display','none');
 			});
 			$('#signup_model').click(function(){
@@ -219,7 +219,6 @@ $('.register-form').submit(function(event) {
     
 
 	// Verify reCAPTCHA for Form 2
-    grecaptcha.ready(function() {
       grecaptcha.execute('6Le7TlEmAAAAANZwWLnQD8mUeh5f4RUGxZvTgYwg', { action: 'registerForm' })
         .then(function(token) {
           // Submit the form if reCAPTCHA was filled
@@ -263,12 +262,12 @@ $('.register-form').submit(function(event) {
         	$('#submit_button').prop('disabled', false).text('Signup');
           }
         });
-    });
 
     
 });
 
-
+			});
+			
 			$('#resendEmail').click(function(event) {
 				$('#resendEmail').css('display','none');
 				$('#submit_button').prop('disabled',true).text('Please wait...');
