@@ -150,7 +150,6 @@
         
         var postData = {
             'email': $('#login_email').val(),
-            'g-recaptcha-response': token // Include the reCAPTCHA response token
         };
         
         $('#resendLoginEmail').val(postData);
