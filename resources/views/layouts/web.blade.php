@@ -58,7 +58,7 @@
 				<span class="close-popup"><i class="la la-close"></i></span>
 				<h3>Login</h3>
 				<span class="text-success login_success" style="display: none;"></span>
-				<form class="login-form">
+				<form class="login-form" id="loginForm">
 					<div class="cfield log-form">
 						<input type="email" name="email" id="login_email" placeholder="Email" required="">
 						<i class="la la-user"></i>
@@ -86,7 +86,7 @@
 				<span class="close-popup"><i class="la la-close"></i></span>
 				<h3>Sign Up</h3>
 				<span class="success" style="display: none;"></span>
-				<form class="register-form ">
+				<form class="register-form" id="registerForm">
 					<div class="cfield reg-form">
 						<input type="text" id="fullname" name="name" placeholder="Fullname" >
 						<i class="la la-user"></i>
@@ -102,7 +102,11 @@
 						<i class="la la-phone"></i>
 						<span class="error-message phone-error" style="display: none;"></span>
 					</div>
-					<button class="reg-form" id="submit_button" type="submit">Signup</button>
+				
+						<div class="g-recaptcha" data-sitekey="6LeE2TsmAAAAAGgM4VzY7RUsyrMows9exNl01c2V"></div>
+						<p id="checkRegisterCaptcha"  style="color:red;font-size:15px;"></p>
+			
+					<button class="reg-form" id="submit_button" type="submit" style="margin-top: 93px;">Signup</button>
 					<span class="signin-popup">Already Register ?
 						<a href="javascript:void(0)" id="signin_model" class="text-danger">Login Here</a>
 					</span>
@@ -145,14 +149,18 @@
 			});
 			$('.login-form').submit(function(event) {
     event.preventDefault();
-    
-    // Check if reCAPTCHA is checked
-    if (grecaptcha && grecaptcha.getResponse().length > 0) {
+
+	// Verify reCAPTCHA for Form 1
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LeE2TsmAAAAAGgM4VzY7RUsyrMows9exNl01c2V', { action: 'loginForm' })
+        .then(function(token) {
+          // Submit the form if reCAPTCHA was filled
+    if (token) {
         $('#login_button').prop('disabled', true).text('Please wait...');
         
         var postData = {
             'email': $('#login_email').val(),
-            'g-recaptcha-response': grecaptcha.getResponse() // Include the reCAPTCHA response token
+            'g-recaptcha-response': token // Include the reCAPTCHA response token
         };
         
         $('#resendLoginEmail').val(postData);
@@ -183,6 +191,10 @@
         // reCAPTCHA not checked, display an error message or perform any other action
 		document.getElementById("checkCaptcha").innerHTML = "reCAPTCHA not checked!";
     }
+        });
+    });
+    
+    
 });
 
 
@@ -192,47 +204,70 @@
 			$('#signup_model').click(function(){
 				$('.signin-popup-box').css('display','none');
 			});
-			// Register Form Ajax Request
-			$('.register-form').submit(function(event) {
-				$('#submit_button').prop('disabled',true).text('Please wait...');
-				event.preventDefault();
-				var postData = {
-					'name'		    : $('#fullname').val(),
-					'email'         : $('#email').val(),
-					'phone'      	: $('#phone').val(),
-				};
-				$('#resendEmail').val(postData);
-				$.ajax({
-					type: 'POST',
-					url: "/register",
-					data: postData,
-					success: function(response) {
-						$('#resendEmail').css('display','block').delay(3500);
-						$('#submit_button').prop('disabled',false).text('Signup');
-						$('.success').css('display', 'block').addClass('text-success').fadeIn('slow').text("You have registered successfully! Please check your email for login link").delay(3500);
-						$('form.register-form').trigger("reset");
-						$('.reg-form').css('display','none');
-					},
-					error: function(response) {
-						$('#submit_button').prop('disabled',false).text('Signup');
-						$('.error-message').css('display', 'none');
-						if(response) {
-							if(response.responseJSON.errors.name) {
-								$('.fullname-error').css('display', 'block').html(response.responseJSON.errors.name);
-								$('.fullname-error').siblings("input").addClass("error-line");
-							}
-							if(response.responseJSON.errors.email) {
-								$('.email-error').css('display', 'block').html(response.responseJSON.errors.email);
-								$('.email-error').siblings("input").addClass("error-line");
-							}
-							if(response.responseJSON.errors.phone) {
-								$('.phone-error').css('display', 'block').html(response.responseJSON.errors.phone);
-								$('.phone-error').siblings("input").addClass("error-line");
-							}
-						}
-					}
-				});
-			});
+
+		// Register Form Ajax Request
+$('.register-form').submit(function(event) {
+    $('#submit_button').prop('disabled', true).text('Please wait...');
+    event.preventDefault();
+    var postData = {
+        'name': $('#fullname').val(),
+        'email': $('#email').val(),
+        'phone': $('#phone').val(),
+    };
+    $('#resendEmail').val(postData);
+    
+
+	// Verify reCAPTCHA for Form 2
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LeE2TsmAAAAAGgM4VzY7RUsyrMows9exNl01c2V', { action: 'registerForm' })
+        .then(function(token) {
+          // Submit the form if reCAPTCHA was filled
+          if (token) {
+
+			postData['g-recaptcha-response'] = token;
+            // Process Form 2 submission
+            $.ajax({
+        type: 'POST',
+        url: "/register",
+        data: postData,
+        success: function(response) {
+            $('#resendEmail').css('display', 'block').delay(3500);
+            $('#submit_button').prop('disabled', false).text('Signup');
+            $('.success').css('display', 'block').addClass('text-success').fadeIn('slow').text("You have registered successfully! Please check your email for login link").delay(3500);
+            $('form.register-form').trigger("reset");
+            $('.reg-form').css('display', 'none');
+        },
+        error: function(response) {
+            $('#submit_button').prop('disabled', false).text('Signup');
+            $('.error-message').css('display', 'none');
+            if (response) {
+                if (response.responseJSON.errors.name) {
+                    $('.fullname-error').css('display', 'block').html(response.responseJSON.errors.name);
+                    $('.fullname-error').siblings("input").addClass("error-line");
+                }
+                if (response.responseJSON.errors.email) {
+                    $('.email-error').css('display', 'block').html(response.responseJSON.errors.email);
+                    $('.email-error').siblings("input").addClass("error-line");
+                }
+                if (response.responseJSON.errors.phone) {
+                    $('.phone-error').css('display', 'block').html(response.responseJSON.errors.phone);
+                    $('.phone-error').siblings("input").addClass("error-line");
+                }
+            }
+        }
+    });
+          } else {
+            // Display an error message or take appropriate action
+			document.getElementById("checkRegisterCaptcha").innerHTML = "reCAPTCHA not checked!";
+        	$('#submit_button').prop('disabled', false).text('Signup');
+          }
+        });
+    });
+
+    
+});
+
+
 			$('#resendEmail').click(function(event) {
 				$('#resendEmail').css('display','none');
 				$('#submit_button').prop('disabled',true).text('Please wait...');

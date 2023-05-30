@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use ReCaptcha\ReCaptcha;
+use ReCaptcha\Response as ReCaptchaResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -56,66 +58,60 @@ class RegisterController extends Controller
         ],$messages);
     }
 
-    protected function create(array $data)
-    {   
+   protected function create(Request $request)
+{   
+    // Verify reCAPTCHA response
+    $captchaResponse = $request->input('g-recaptcha-response');
+    $recaptcha = new ReCaptcha('6LeE2TsmAAAAAN8pSuswFdERu_WXMjg7lLSZgb1l');
+    $recaptchaResponse = $recaptcha->verify($captchaResponse);
+    
+    if (!$recaptchaResponse->isSuccess()) {
+        // reCAPTCHA verification failed
+        dd("reCAPTCHA verification failed");
+    }
 
-        $user  = User::create([
-            'name'      =>  $data['name'],
-            'email'     =>  $data['email'],
-            'phone'     =>  $data['phone'],
-            'status'    =>  1,
-        ]);
-        $profile = Profile::create([
-            'user_id' => $user->id,
-        ]);
-        Education::create([
-            'profile_id'         =>  $profile->id
-        ]);
-        Experience::create([
-            'profile_id'         =>  $profile->id
-        ]);
-        $user->roles()->sync(3);
-        //Send token
-        UserToken::create([
-            'user_id' => $user->id,
-            'token'   => Str::random(50)
-        ]);
-        $url = url('/login_link/' . $user->token->token . '?' . http_build_query([
-            'email' =>  $user->email,
-        ]));
-       
-        Mail::to($user->email)->send(new UserLogin($user, $url));
-       
-        if (Mail::failures()) {
-            dd("fail");
-        }
-        else
-        {
-            dd("Sucess Mail");
-        }
-        return $user;
-    }
-    public function showRegistrationForm()
-    {
-        $countries = Country::all();
-        return view('auth.register', compact('countries'));
-    }
-    public function resendEmail(Request $request){
-        
-       $user = User::where('email',$request->email)->first();
-       UserToken::where('user_id',$user->id)->delete(); 
-       UserToken::create([
+    // Proceed with user registration logic
+    $user = User::create([
+        'name'      =>  $request->input('name'),
+        'email'     =>  $request->input('email'),
+        'phone'     =>  $request->input('phone'),
+        'status'    =>  1,
+    ]);
+
+    $profile = Profile::create([
+        'user_id' => $user->id,
+    ]);
+
+    Education::create([
+        'profile_id' =>  $profile->id
+    ]);
+
+    Experience::create([
+        'profile_id' =>  $profile->id
+    ]);
+
+    $user->roles()->sync(3);
+
+    //Send token
+    UserToken::create([
         'user_id' => $user->id,
         'token'   => Str::random(50)
-        ]);
-       $url = url('/login_link/' . $user->token->token . '?' . http_build_query([
+    ]);
+
+    $url = url('/login_link/' . $user->token->token . '?' . http_build_query([
         'email' =>  $user->email,
-       ]));
-   
-       Mail::to($user->email)->send(new UserLogin($user, $url));
-       
-       return $user;
+    ]));
+
+    Mail::to($user->email)->send(new UserLogin($user, $url));
+
+    if (Mail::failures()) {
+        dd("fail");
+    } else {
+        dd("Success Mail");
     }
+
+    return $user;
+}
     public function resendLoginEmail(Request $request){
         
         $user = User::where('email',$request->email)->first();
