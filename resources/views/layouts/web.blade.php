@@ -97,9 +97,10 @@
 						<i class="la la-phone"></i>
 						<span class="error-message phone-error" style="display: none;"></span>
 					</div>
+					<div id="captachaDiv">
 					<div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
 						<p id="checkRegisterCaptcha"  style="color:red;font-size:15px;"></p>
-			
+					</div>
 					<button class="reg-form" id="submit_button" type="submit" style="margin-top: 93px;">Signup</button>
 					<span class="signin-popup">Already Register ?
 						<a href="javascript:void(0)" id="signin_model" class="text-danger">Login Here</a>
@@ -160,6 +161,7 @@
             success: function(response) {
                 $('#resendLoginEmail').css('display', 'block').delay(3500);
                 $('#login_button').prop('disabled', false).text('Login');
+				$('#captachaDiv').css('display', 'none');
                 $('.login_success').css('display', 'block').fadeIn('slow').text("Check your email for login link").delay(3500);
                 $('form.register-form').trigger("reset");
                 $('.log-form').css('display', 'none');
@@ -213,6 +215,7 @@ $('.register-form').submit(function(event) {
             $('.success').css('display', 'block').addClass('text-success').fadeIn('slow').text("You have registered successfully! Please check your email for login link").delay(3500);
             $('form.register-form').trigger("reset");
             $('.reg-form').css('display', 'none');
+			$('.g-recaptcha').css('display', 'none'); 
         },
         error: function(response) {
             $('#submit_button').prop('disabled', false).text('Signup');
