@@ -58,60 +58,82 @@ class RegisterController extends Controller
         ],$messages);
     }
 
-   protected function create(Request $request)
-{   
-    // Verify reCAPTCHA response
-    $captchaResponse = $request->input('g-recaptcha-response');
-    $recaptcha = new ReCaptcha(config('services.recaptcha.secret_key'));
-    $recaptchaResponse = $recaptcha->verify($captchaResponse);
-    
-    if (!$recaptchaResponse->isSuccess()) {
-        // reCAPTCHA verification failed
-        dd("reCAPTCHA verification failed");
+    protected function create(Request $request)
+    {   
+        $postData = $request->all();
+
+        $messages = [
+            'name.required'         => 'Fullname field is required.',
+            'name.max'              => 'Fullname field must be less than 191 characters',
+            'phone.required'        => 'Mobile Number is required.',
+            'phone.numeric'         => 'Mobile Number must be numeric.',
+            'phone.digits_between'  => '<br>Mobile Number must be between 10 and 20 digits.',
+            'phone.unique'          => 'This phone number is already registered with our talent pool. Try with another number',
+            'email.unique'          => 'This email is already registered with our talent pool. Try with another email',
+            'email.required'        => 'Email field is required.',
+        ];
+
+        $validator = Validator::make($postData, [
+            'name'  => 'required|max:191||regex:/^[\pL\s\-]+$/u',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|numeric|digits_between:10,20|unique:users',
+        ], $messages);
+
+        if ($validator->fails()) {
+            $response = new \stdClass();
+            $response->status = false;
+            $response->errors = $validator->errors();
+            return response()->json($response, 400);
+        }
+
+        // Verify reCAPTCHA response
+        $captchaResponse = $postData['g-recaptcha-response'];
+        $recaptcha = new ReCaptcha('6Le7TlEmAAAAABBl2nxnvVlzCr5b0UH0CHf9xSKV');
+        $recaptchaResponse = $recaptcha->verify($captchaResponse);
+
+        if (!$recaptchaResponse->isSuccess()) {
+            // reCAPTCHA verification failed
+            $response = new \stdClass();
+            $response->status = false;
+            $response->message = "reCAPTCHA verification failed";
+            return response()->json($response, 400);
+        }
+
+        $user = new User;
+        $user->name = $postData['name'];
+        $user->email = $postData['email'];
+        $user->phone = $postData['phone'];
+
+        if ($user->save()) {
+            $profile = new Profile;
+            $profile->user_id = $user->id;
+
+            if ($profile->save()) {
+                $exp = new Experience;
+                $exp->profile_id = $profile->id;
+                $exp->save();
+            }
+        }
+
+        $user->roles()->sync(3);
+
+        $userToken = new UserToken;
+        $userToken->user_id  = $user->id;
+        $userToken->token = Str::random(50);
+        $userToken->save();
+
+        $url = url('/login_link/' . $userToken->token . '?' . http_build_query([
+            'email' => $user->email,
+        ]));
+
+        Mail::to($user->email)->send(new UserLogin($user, $url));
+
+        $response = new \stdClass();
+        $response->status = true;
+        return response()->json($response);
+
     }
 
-    // Proceed with user registration logic
-    $user = User::create([
-        'name'      =>  $request->name,
-        'email'     =>  $request->email,
-        'phone'     =>  $request->phone,
-        'status'    =>  1,
-    ]);
-
-    $profile = Profile::create([
-        'user_id' => $user->id,
-    ]);
-
-    Education::create([
-        'profile_id' =>  $profile->id
-    ]);
-
-    Experience::create([
-        'profile_id' =>  $profile->id
-    ]);
-
-    $user->roles()->sync(3);
-
-    //Send token
-    UserToken::create([
-        'user_id' => $user->id,
-        'token'   => Str::random(50)
-    ]);
-
-    $url = url('/login_link/' . $user->token->token . '?' . http_build_query([
-        'email' =>  $user->email,
-    ]));
-
-    Mail::to($user->email)->send(new UserLogin($user, $url));
-
-    if (Mail::failures()) {
-        dd("fail");
-    } else {
-        dd("Success Mail");
-    }
-
-    return $user;
-}
     public function resendLoginEmail(Request $request){
         
         $user = User::where('email',$request->email)->first();
