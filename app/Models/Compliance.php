@@ -9,7 +9,7 @@ class Compliance extends Model
 {
     use HasFactory;
 
-    public $table = 'countries';
+    public $table = 'compliance';
 
     protected $dates = [
         'created_at',
