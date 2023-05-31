@@ -26,6 +26,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+
 // Route::get('/', 'HomeController@index')->name('home');
 
 // Route::post('filter-home-job', 'HomeController@filterHomeJobs')->name('filter-home-job');
