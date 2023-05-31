@@ -26,6 +26,8 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::post('/register', [RegisterController::class, 'create']);
+
 
 // Route::get('/', 'HomeController@index')->name('home');
 

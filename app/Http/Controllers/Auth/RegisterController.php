@@ -58,8 +58,8 @@ class RegisterController extends Controller
         ],$messages);
     }
 
-    protected function create(Request $request)
-    {   
+    public function create(Request $request)
+    {
         $postData = $request->all();
 
         $messages = [
@@ -130,8 +130,8 @@ class RegisterController extends Controller
 
         $response = new \stdClass();
         $response->status = true;
+        $response->message = "You have registered successfully! Please check your email for the login link";
         return response()->json($response);
-
     }
 
     public function resendLoginEmail(Request $request){

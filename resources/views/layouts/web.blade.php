@@ -207,7 +207,7 @@ $('.register-form').submit(function(event) {
             // Process Form 2 submission
             $.ajax({
         type: 'POST',
-        url: "/customRegistration",
+        url: "/register",
         data: postData,
         success: function(response) {
             $('#resendEmail').css('display', 'block').delay(3500);
