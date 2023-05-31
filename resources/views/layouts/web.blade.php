@@ -65,8 +65,7 @@
 						<span class="error-message login-email-error" style="display: none;"></span>
 					</div>
 					<div class="remember-label ">
-						<label class="signup-popup">Not Register Yet? <a href="javascript:void(0)" id="signup_model" class="text-danger">Register Here</a></label><br>
-						<label>For JGC Employees! <a href="{{ url('customLogin') }}" class="text-danger">Click Here</a></label>
+						<label class="signup-popup">Not Register Yet? <a href="javascript:void(0)" id="signup_model" class="text-danger">Register Here</a></label>
 					</div>
 					<button class="log-form" id="login_button" type="submit"  >Login</button>
 					</br>
