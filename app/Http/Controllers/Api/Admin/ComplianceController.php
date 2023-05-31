@@ -62,7 +62,6 @@ class ComplianceController extends Controller
                 else{
                     
                     return response([
-                        'errors' => $e->message(),
                         'message' => "Internal Server Error.",
                     ],500); 
         
