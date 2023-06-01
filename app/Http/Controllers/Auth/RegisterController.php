@@ -150,4 +150,24 @@ class RegisterController extends Controller
         
         return $user;
      }
+
+     public function resendEmail(Request $request)
+     {
+        $user = User::where('email',$request->email)->first();
+        UserToken::where('user_id',$user->id)->delete(); 
+        UserToken::create([
+         'user_id' => $user->id,
+         'token'   => Str::random(50)
+         ]);
+        $url = url('/login_link/' . $user->token->token . '?' . http_build_query([
+         'email' =>  $user->email,
+        ]));
+    
+        Mail::to($user->email)->send(new UserLogin($user, $url));
+        
+        $response = new \stdClass();
+        $response->status = true;
+        $response->message = "You have registered successfully! Please check your email for the login link";
+        return response()->json($response);
+     }
 }
