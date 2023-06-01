@@ -9,6 +9,7 @@ use App\Models\Compliance;
 use App\Models\Compliance_Token;
 use Mail;
 use App\Mail\ComplianceApply;
+use App\Mail\ComplianceRegister;
 use Illuminate\Support\Str;
 
 class ComplianceController extends Controller
@@ -181,10 +182,10 @@ class ComplianceController extends Controller
 
                     Compliance_Token::where('token',$token)->delete();
     
-                    // $mailStatus = Mail::to($request->email)->later(now()->addSeconds(3), new ComplianceApply($request->fullname, $url));
+                    $mailStatus = Mail::to($request->email)->later(now()->addSeconds(3), new ComplianceRegister($request->fullname));
     
                         $response = [
-                            // 'mailStatus' => $mailStatus,
+                            'mailStatus' => $mailStatus,
                             'message' => 'compliance register successfully.',
                         ];
     
