@@ -222,6 +222,33 @@ class ComplianceController extends Controller
                 ],500); 
         }
     }
+
+    public function complianceList(Request $request){
+        try{
+
+            $key = $request->key;
+
+            if($key == "AIzaSyARU2rr8X3qHFSAD3F3434F42RFbrz72oVswps5VMjldNFHW4"){
+
+                $allcompliance = Compliance::select('fullname','email','mobile','category','message','attachment')->get();
+
+                return response($allcompliance, 200);
+
+            }
+            else{
+                return response([
+                    'message' => "Not Authorized",
+                ],500);
+            }
+            
+        }
+        catch(Exception $e){
+            return response([
+                    'errors' => $e->message(),
+                    'message' => "Internal Server Error.",
+                ],500); 
+        }
+    }
 }
 
 
