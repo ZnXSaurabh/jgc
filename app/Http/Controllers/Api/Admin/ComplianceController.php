@@ -9,6 +9,7 @@ use App\Models\Compliance;
 use App\Models\Compliance_Token;
 use Mail;
 use App\Mail\ComplianceApply;
+use App\Mail\ComplianceRegister;
 use Illuminate\Support\Str;
 
 class ComplianceController extends Controller
@@ -181,10 +182,10 @@ class ComplianceController extends Controller
 
                     Compliance_Token::where('token',$token)->delete();
     
-                    // $mailStatus = Mail::to($request->email)->later(now()->addSeconds(3), new ComplianceApply($request->fullname, $url));
+                    $mailStatus = Mail::to($request->email)->later(now()->addSeconds(3), new ComplianceRegister($request->fullname));
     
                         $response = [
-                            // 'mailStatus' => $mailStatus,
+                            'mailStatus' => $mailStatus,
                             'message' => 'compliance register successfully.',
                         ];
     
@@ -213,6 +214,33 @@ class ComplianceController extends Controller
                     'message' => "Unauthorized user.",
                 ],401);
             }
+        }
+        catch(Exception $e){
+            return response([
+                    'errors' => $e->message(),
+                    'message' => "Internal Server Error.",
+                ],500); 
+        }
+    }
+
+    public function complianceList(Request $request){
+        try{
+
+            $key = $request->key;
+
+            if($key == "AIzaSyARU2rr8X3qHFSAD3F3434F42RFbrz72oVswps5VMjldNFHW4"){
+
+                $allcompliance = Compliance::select('fullname','email','mobile','category','message','attachment')->get();
+
+                return response($allcompliance, 200);
+
+            }
+            else{
+                return response([
+                    'message' => "Not Authorized",
+                ],500);
+            }
+            
         }
         catch(Exception $e){
             return response([
