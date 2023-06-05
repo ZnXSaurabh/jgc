@@ -8,7 +8,15 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    @if(Route::current()->uri == "common/jobs")
                     <h4 class="card-title">All Jobs</h4>
+                    @elseif(Route::current()->uri == "common/approved_jobs")
+                    <h4 class="card-title">Approved Jobs</h4>
+                    @elseif(Route::current()->uri == "common/unapproved_jobs")
+                    <h4 class="card-title">Unapproved Jobs</h4>
+                    @elseif(Route::current()->uri == "common.show_expired_job")
+                    <h4 class="card-title">Expired Jobs</h4>
+                    @endif
                     <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                     <div class="heading-elements">
                         @can('job_create')
@@ -53,7 +61,12 @@
                                     <td>{{ $job->jobid ?? '' }}</td>
                                     <td>{{ $job->title ?? '' }}</td>
                                     <td>{{ App\Models\Location::where('id', $job->location_id)->pluck('name')->first() }}</td>
-                                    <td>@if($job->status=='1') Active @else Deactivated @endif</td>
+                                    @if(Route::current()->uri == "common/show_expired_job")
+                                    <td> Inactive</td>
+                                    @else
+                                    <td> Active </td>
+                                    @endif
+                                  
                                     <td class="col-6">
                                         @can('job_edit')
                                         @if(Route::current()->uri == "common/jobs")

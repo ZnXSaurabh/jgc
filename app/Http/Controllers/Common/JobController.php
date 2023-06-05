@@ -316,8 +316,6 @@ class JobController extends Controller
     }
    public function show_expired_job()
    {
-
-
     if (Auth()->user()->hasRole('Admin') || Auth()->user()->hasRole('Super Admin')) {
         $jobs = Job::orderBy('id','DESC')->where('job_expiry_date' ,'<', date('Y-m-d'))->get();
     }elseif(Auth::user()->hasRole('Vendor')){

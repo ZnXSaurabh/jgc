@@ -135,57 +135,17 @@
                                         <div class="col-lg-4 p-1">
 
                                             <form action="{{ route('common.filter_by_exp') }}" method="post">
-
                                                 @csrf
-
-                                                <select class="form-control mr-1" style="width:50%;float:left" name="exp">
-
-                                                    <option value=" ">Choose Experience</option>
-
-                                                    <option value="1" @if('1' == $exp)
-
-                                                    selected @endif>1</option>
-
-                                                    <option value="2"@if('2' == $exp)
-
-                                                    selected @endif>2</option>
-
-                                                    <option value="3"@if('3' == $exp)
-
-                                                    selected @endif>3</option>
-
-                                                    <option value="4"@if('4' == $exp)
-
-                                                    selected @endif>4</option>
-
-                                                    <option value="5"@if('5' == $exp)
-
-                                                    selected @endif>5</option>
-
-                                                    <option value="6"@if('6' == $exp)
-
-                                                    selected @endif>6</option>
-
-                                                    <option value="7"@if('7' == $exp)
-
-                                                    selected @endif>7</option>
-
-                                                    <option value="8"@if('8' == $exp)
-
-                                                    selected @endif>8</option>
-
-                                                    <option value="9"@if('9' == $exp)
-
-                                                    selected @endif>9</option>
-
-                                                    <option value="10"@if('10' == $exp)
-
-                                                    selected @endif>10</option>
-
+                                                <select class="form-control mr-1" style="width: 50%; float: left" name="exp">
+                                                    <option value="">Choose Experience</option>
+                                                    <option value="0-5" @if('0-5' == $exp) selected @endif>0-5</option>
+                                                    <option value="5-10" @if('5-10' == $exp) selected @endif>5-10</option>
+                                                    <option value="10-15" @if('10-15' == $exp) selected @endif>10-15</option>
+                                                    <option value="15-20" @if('15-20' == $exp) selected @endif>15-20</option>
+                                                    <option value="20-25" @if('20-25' == $exp) selected @endif>20-25</option>
+                                                    <option value="25+" @if('25+' == $exp) selected @endif>25+</option>
                                                 </select>
-
                                                 <button type="submit" class="btn btn-info mt-0">Filter By Experience</button>
-
                                             </form>
 
                                         </div>

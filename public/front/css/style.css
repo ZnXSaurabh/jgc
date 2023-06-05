@@ -4716,7 +4716,7 @@ aside .widget:first-child {
     margin-bottom: 4px;
 }
 .type_widget p label {
-    padding-left: 31px;
+    padding-left: 8px;
 }
 
 
@@ -5067,7 +5067,7 @@ aside .subscribe_widget form button {
 }
 .widget.border {
     border: 2px solid #e6e7ef;
-    padding: 18px 20px;
+    padding: 18px 12px;
     
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
