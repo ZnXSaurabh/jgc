@@ -136,7 +136,7 @@ Route::group(['prefix' => 'common', 'as' => 'common.', 'namespace' => 'App\Http\
 
     Route::post('filter_by_age','CandidateController@filter_by_age')->name('filter_by_age');
 
-   // Route::get('kfupm_user-export', 'KfupmController@export')->name('kfupm_user-export');  
+//    Route::get('kfupm_user-export', 'KfupmController@export')->name('kfupm_user-export');  
 
     
 

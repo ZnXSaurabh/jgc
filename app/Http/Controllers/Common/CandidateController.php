@@ -715,6 +715,7 @@ class CandidateController extends Controller
             $users['profile']= Profile::whereIn('user_id',$candidates_id)->select('dob')->get();
             $users['candidate_exp'] = Experience::whereIn('profile_id',$profile_id)->select('level','start_year','end_year')->get();
             $users['candidate_edu'] = Education::whereIn('profile_id',$profile_id)->select('level','course','percentage')->get();
+           
             $users['appliedcandidates'] = JobApplied::where('job_id','=',$job_id)->whereIn('candidate_id',$candidates_id)->where('status','=','0')->select('id','applied_by','applied_date')->get();
             $users['candidate_detail'] = User::whereIn('id',$candidates_id)->select('id','name','email','phone')->get();
         }
@@ -728,6 +729,7 @@ class CandidateController extends Controller
         $users['profile']= Profile::whereIn('user_id',$candidates_id)->select('dob')->get();
         $users['candidate_exp'] = Experience::whereIn('profile_id',$profile_id)->select('level','start_year','end_year')->get();
         $users['candidate_edu'] = Education::whereIn('profile_id',$profile_id)->select('level','course','percentage')->get();
+      
         $users['appliedcandidates'] = JobApplied::where('job_id','=',$job_id)->whereIn('candidate_id',$candidates_id)->select('id','applied_by','applied_date')->get();
         $users['candidate_detail'] = User::whereIn('id',$candidates_id)->select('id','name','status','email','phone')->get();
         
@@ -741,84 +743,126 @@ class CandidateController extends Controller
     }
 
     public function filter_by_age(Request $request){
-
-        $age=$request->age;
-        $jobs= Job::where('approved_by','!=',NULL)->where('job_expiry_date' ,'>', date('Y-m-d'))->where('status',1)->get();
+        $age = $request->age;
+        $jobs = Job::where('approved_by', '!=', NULL)
+                    ->where('job_expiry_date', '>', date('Y-m-d'))
+                    ->where('status', 1)
+                    ->get();
+    
         $messages = [
-            'age.required'         => 'Please enter age first',
+            'age.required' => 'Please enter age first',
         ];
+    
         $request->validate([
-            'age'                      =>  'required',
-        ],$messages);
-
+            'age' => 'required',
+        ], $messages);
+    
         $vendors_candidate_id = [];
-
-        if(Auth::user()->hasRole('Vendor')){
-            $VendorsCandidates['vendors_candidate_age']=VendorsCandidates::select('dob','id')->get();
-            foreach($VendorsCandidates['vendors_candidate_age'] as $key => $user_age){
-             if(Carbon::parse($VendorsCandidates['vendors_candidate_age'][$key]->dob)->age >= $request->age){
-                 $vendors_candidate_id[] = $VendorsCandidates['vendors_candidate_age'][$key]['id'];
-             }
-         }
-         if($vendors_candidate_id !=NULL){
-             $VendorsCandidates['vendors_candidate_exp'] = Experience::whereIn('vendors_user_id',$vendors_candidate_id)->select('level','start_year','end_year')->get();
-             $VendorsCandidates['vendors_candidate_edu'] = Education::whereIn('vendors_user_id',$vendors_candidate_id)->select('level','course','percentage')->get();
-             $VendorsCandidates['vendors_candidate_detail'] = VendorsCandidates::whereIn('id',$vendors_candidate_id)->select('id','name','email','phone','dob')->get();
-        }
-        }else{
-        $users['candidate_age']   =  Profile::select('user_id','dob')->where('user_id','!=',NULL)->get();
-
-        foreach($users['candidate_age'] as $key => $user_age){
-            if(Carbon::parse($users['candidate_age'][$key]->dob)->age >= $request->age){
-                $candidates_id[] = $users['candidate_age'][$key]['user_id'];
-            }
-        }
-        if($candidates_id !=NULL) {                                 
-            $profile_id = Profile::whereIn('user_id',$candidates_id)->pluck('id');
-            $users['profile']= Profile::whereIn('user_id',$candidates_id)->select('dob')->get();
-            $users['candidate_exp'] = Experience::whereIn('profile_id',$profile_id)->select('level','start_year','end_year')->get();
-            $users['candidate_edu'] = Education::whereIn('profile_id',$profile_id)->select('level','course','percentage')->get();
-            $users['candidate_detail'] = User::whereIn('id',$candidates_id)->select('id','name','status','email','phone')->get();
-                 }
-            $VendorsCandidates['vendors_candidate_age']=VendorsCandidates::select('dob','id')->get();
-               foreach($VendorsCandidates['vendors_candidate_age'] as $key => $user_age){
-                if(Carbon::parse($VendorsCandidates['vendors_candidate_age'][$key]->dob)->age >= $request->age){
+        $candidates_id = [];
+    
+        if (Auth::user()->hasRole('Vendor')) {
+            $VendorsCandidates['vendors_candidate_age'] = VendorsCandidates::select('dob', 'id')->get();
+    
+            foreach ($VendorsCandidates['vendors_candidate_age'] as $key => $user_age) {
+                if (Carbon::parse($VendorsCandidates['vendors_candidate_age'][$key]->dob)->age == $age) {
                     $vendors_candidate_id[] = $VendorsCandidates['vendors_candidate_age'][$key]['id'];
                 }
             }
-            if($vendors_candidate_id !=NULL){
-                $VendorsCandidates['vendors_candidate_exp'] = Experience::whereIn('vendors_user_id',$vendors_candidate_id)->select('level','start_year','end_year')->get();
-                $VendorsCandidates['vendors_candidate_edu'] = Education::whereIn('vendors_user_id',$vendors_candidate_id)->select('level','course','percentage')->get();
-                $VendorsCandidates['vendors_candidate_detail'] = VendorsCandidates::whereIn('id',$vendwors_candidate_id)->select('id','name','email','phone','dob')->get();
-           }
+    
+            if (!empty($vendors_candidate_id)) {
+                $VendorsCandidates['vendors_candidate_exp'] = Experience::whereIn('vendors_user_id', $vendors_candidate_id)
+                                                                        ->select('level', 'start_year', 'end_year')
+                                                                        ->get();
+                $VendorsCandidates['vendors_candidate_edu'] = Education::whereIn('vendors_user_id', $vendors_candidate_id)
+                                                                        ->select('level', 'course', 'percentage')
+                                                                        ->get();
+                $VendorsCandidates['vendors_candidate_detail'] = VendorsCandidates::whereIn('id', $vendors_candidate_id)
+                                                                                    ->select('id', 'name', 'email', 'phone', 'dob')
+                                                                                    ->get();
+            }
+        } else {
+            $users['candidate_age'] = Profile::select('user_id', 'dob')
+                                                ->where('user_id', '!=', NULL)
+                                                ->get();
+    
+            foreach ($users['candidate_age'] as $key => $user_age) {
+                if (Carbon::parse($users['candidate_age'][$key]->dob)->age == $age) {
+                    $candidates_id[] = $users['candidate_age'][$key]['user_id'];
+                }
+            }
+    
+            if (!empty($candidates_id)) {
+                $profile_id = Profile::whereIn('user_id', $candidates_id)->pluck('id');
+                $users['profile'] = Profile::whereIn('user_id', $candidates_id)
+                                            ->select('dob')
+                                            ->get();
+                $users['candidate_exp'] = Experience::whereIn('profile_id', $profile_id)
+                                                    ->select('level', 'start_year', 'end_year')
+                                                    ->get();
+                $users['candidate_edu'] = Education::whereIn('profile_id', $profile_id)
+                                                    ->select('level', 'course', 'percentage')
+                                                    ->get();
+    
+                $users['candidate_detail'] = User::whereIn('id', $candidates_id)
+                                                    ->select('id', 'name', 'status', 'email', 'phone')
+                                                    ->get();
+            }
+    
+            $VendorsCandidates['vendors_candidate_age'] = VendorsCandidates::select('dob', 'id')->get();
+    
+            foreach ($VendorsCandidates['vendors_candidate_age'] as $key => $user_age) {
+                if (Carbon::parse($VendorsCandidates['vendors_candidate_age'][$key]->dob)->age == $age) {
+                    $vendors_candidate_id[] = $VendorsCandidates['vendors_candidate_age'][$key]['id'];
+                }
+            }
+    
+            if (!empty($vendors_candidate_id)) {
+                $VendorsCandidates['vendors_candidate_exp'] = Experience::whereIn('vendors_user_id', $vendors_candidate_id)
+                                                                        ->select('level', 'start_year', 'end_year')
+                                                                        ->get();
+                $VendorsCandidates['vendors_candidate_edu'] = Education::whereIn('vendors_user_id', $vendors_candidate_id)
+                                                                        ->select('level', 'course', 'percentage')
+                                                                        ->get();
+                $VendorsCandidates['vendors_candidate_detail'] = VendorsCandidates::whereIn('id', $vendors_candidate_id)
+                                                                                    ->select('id', 'name', 'email', 'phone', 'dob')
+                                                                                    ->get();
+            }
         }
-
+    
         $exp = null;
-            return view('admin.candidate.index', compact('users','jobs', 'age','VendorsCandidates','exp'));
-            
+        return view('admin.candidate.index', compact('users', 'jobs', 'age', 'VendorsCandidates', 'exp'));
     }
-
+    
 
     public function filter_by_exp(Request $request){
-        $jobs= Job::where('approved_by','!=',NULL)->where('job_expiry_date' ,'>', date('Y-m-d'))->where('status',1)->get();
-        $messages = [
-            'exp.required'         => 'Please Select Experience for filter',
-        ];
-        $request->validate([
-            'exp'                      =>  'required',
-        ],$messages);
-        $exp     =    $request->exp;
 
+        $vendors_candidate_id = [];
+    
+        $jobs = Job::where('approved_by', '!=', NULL)
+            ->where('job_expiry_date', '>', date('Y-m-d'))
+            ->where('status', 1)
+            ->get();
+        
+        $messages = [
+            'exp.required' => 'Please select an experience range for filtering.',
+        ];
+        
+        $request->validate([
+            'exp' => 'required',
+        ], $messages);
+        
+        $exp = $request->exp;
+    
         if (Auth::user()->hasRole('Vendor')) {
             $VendorsCandidates['candidate_exp'] = Experience::select('vendors_user_id', 'start_year', 'end_year')
                 ->where('vendors_user_id', '!=', NULL)
                 ->get();
         
-            foreach ($VendorsCandidates['candidate_exp'] as $key => $start_year) {
+            foreach ($VendorsCandidates['candidate_exp'] as $key => $experience) {
                 $totalDuration = 0;
         
-                $startYears = json_decode($VendorsCandidates['candidate_exp'][$key]['start_year'], true);
-                $endYears = json_decode($VendorsCandidates['candidate_exp'][$key]['end_year'], true);
+                $startYears = json_decode($experience['start_year'], true);
+                $endYears = json_decode($experience['end_year'], true);
         
                 if (is_array($startYears) && is_array($endYears)) {
                     foreach ($startYears as $expkey => $start_year) {
@@ -830,9 +874,19 @@ class CandidateController extends Controller
                     }
                 }
         
-                $total_exp[$key] = round($totalDuration / 12, 1);
+                $total_exp = round($totalDuration / 12, 1);
         
-                if ($total_exp[$key] >= $request->exp) {
+                if ($exp === '0-5' && $total_exp >= 0 && $total_exp <= 5) {
+                    $vendors_candidate_id[] = $VendorsCandidates['candidate_exp'][$key]['vendors_user_id'];
+                } elseif ($exp === '5-10' && $total_exp > 5 && $total_exp <= 10) {
+                    $vendors_candidate_id[] = $VendorsCandidates['candidate_exp'][$key]['vendors_user_id'];
+                } elseif ($exp === '10-15' && $total_exp > 10 && $total_exp <= 15) {
+                    $vendors_candidate_id[] = $VendorsCandidates['candidate_exp'][$key]['vendors_user_id'];
+                } elseif ($exp === '15-20' && $total_exp > 15 && $total_exp <= 20) {
+                    $vendors_candidate_id[] = $VendorsCandidates['candidate_exp'][$key]['vendors_user_id'];
+                } elseif ($exp === '20-25' && $total_exp > 20 && $total_exp <= 25) {
+                    $vendors_candidate_id[] = $VendorsCandidates['candidate_exp'][$key]['vendors_user_id'];
+                } elseif ($exp === '25+' && $total_exp > 25) {
                     $vendors_candidate_id[] = $VendorsCandidates['candidate_exp'][$key]['vendors_user_id'];
                 }
             }
@@ -846,11 +900,7 @@ class CandidateController extends Controller
                     ->get();
                 
                 $VendorsCandidates['vendors_candidate_edu'] = Education::whereIn('vendors_user_id', $vendorss_candidate_id)
-                    ->select('level', 'course', 'percentage')
-                    ->get();
-        
-                $VendorsCandidates['vendors_candidate_detail'] = VendorsCandidates::whereIn('id', $vendorss_candidate_id)
-                    ->select('id', 'name', 'email', 'status', 'phone', 'dob')
+                    ->select('level', 'year')
                     ->get();
             }
         } else {
@@ -868,7 +918,7 @@ class CandidateController extends Controller
                     foreach ($startYears as $expkey => $start_year) {
                         if (array_key_exists($expkey, $endYears)) {
                             $startTime = Carbon::parse($start_year);
-                
+        
                             if ($endYears[$expkey] === 'Present') {
                                 $endTime = Carbon::now();
                             } elseif ($endYears[$expkey] === '-') {
@@ -877,28 +927,39 @@ class CandidateController extends Controller
                             } else {
                                 $endTime = Carbon::parse($endYears[$expkey]);
                             }
-                
+        
                             $totalDuration += $startTime->diffInMonths($endTime);
                         }
                     }
                 }
-                
         
                 $total_exp[$key] = round($totalDuration / 12, 1);
         
-                if ($total_exp[$key] >= $request->exp) {
+                if ($exp === '0-5' && $total_exp[$key] >= 0 && $total_exp[$key] <= 5) {
+                    $profils_id[] = $users['candidate_exp'][$key]['profile_id'];
+                } elseif ($exp === '5-10' && $total_exp[$key] > 5 && $total_exp[$key] <= 10) {
+                    $profils_id[] = $users['candidate_exp'][$key]['profile_id'];
+                } elseif ($exp === '10-15' && $total_exp[$key] > 10 && $total_exp[$key] <= 15) {
+                    $profils_id[] = $users['candidate_exp'][$key]['profile_id'];
+                } elseif ($exp === '15-20' && $total_exp[$key] > 15 && $total_exp[$key] <= 20) {
+                    $profils_id[] = $users['candidate_exp'][$key]['profile_id'];
+                } elseif ($exp === '20-25' && $total_exp[$key] > 20 && $total_exp[$key] <= 25) {
+                    $profils_id[] = $users['candidate_exp'][$key]['profile_id'];
+                } elseif ($exp === '25+' && $total_exp[$key] > 25) {
                     $profils_id[] = $users['candidate_exp'][$key]['profile_id'];
                 }
+
+                
             }
         
             if ($profils_id != NULL) {
                 $candidates_id = Profile::whereIn('id', $profils_id)->pluck('user_id');
                 $profile_id = Profile::whereIn('user_id', $candidates_id)->pluck('id');
-                
+        
                 $users['profile'] = Profile::whereIn('user_id', $candidates_id)
                     ->select('dob')
                     ->get();
-                
+        
                 $users['candidate_exp'] = Experience::whereIn('profile_id', $profile_id)
                     ->select('level', 'start_year', 'end_year')
                     ->get();
@@ -957,12 +1018,15 @@ class CandidateController extends Controller
                     ->select('id', 'name', 'email', 'status', 'phone', 'dob')
                     ->get();
             }
-
+        
         }
-
+     
         $age = 'null';
-        return view('admin.candidate.index', compact('users','jobs', 'exp','age','VendorsCandidates'));
+        return view('admin.candidate.index', compact('users', 'jobs', 'exp', 'age', 'VendorsCandidates'));
+        
     }
     
- 
-}
+    
+    }
+    
+    
