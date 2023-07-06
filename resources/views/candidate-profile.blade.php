@@ -101,7 +101,14 @@
                                 </div>
                             </div>
                             
-                            @php $levels = json_decode($educations->level, true); @endphp
+                            @php
+                            if ($educations !== null) {
+                                $levels = json_decode($educations->level, true);
+                            } else {
+                                $levels = [];
+                            }
+                            @endphp
+                            
                             @if($levels !== null)
                             <div class="border-title">
                                 <h3>Education </h3>

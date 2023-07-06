@@ -278,21 +278,26 @@ class CandidateController extends Controller
         $count          =   Profile::where('user_id', Auth::user()->id)->count();
 
         $maximumPoints  = 100;
-        if($profile->address != "" && $profile->profile_pic != ""){
+        if ($profile->address != "" && $profile->profile_pic != "") {
             $hasAddress = 50;
-        }elseif($profile->address != ""){
+        } elseif ($profile->address != "") {
             $hasAddress = 45;
-        }else{
+        } else {
             $hasAddress = 0;
-        }if($experiences->level != ""){
+        }
+        
+        if ($experiences !== null && $experiences->level != "") {
             $hasExperiencesLevel = 25;
-        }else{
-            $hasExperiencesLevel = 0;
-        }if($educations->level != ""){
-            $hasExperiencesLevel = 25;
-        }else{
+        } else {
             $hasExperiencesLevel = 0;
         }
+        
+        if ($educations !== null && $educations->level != "") {
+            $hasEducationsLevel = 25;
+        } else {
+            $hasEducationsLevel = 0;
+        }
+        
         $profilePercentage = ($hasAddress+$hasExperiencesLevel+$hasExperiencesLevel)*$maximumPoints/100;
         
         return view('candidate-profile',compact('profile','experiences','educations', 'profilePercentage'));
@@ -344,6 +349,8 @@ class CandidateController extends Controller
         $candidate          =   User::findOrFail($id);
         $educations         =   Education::where('profile_id',$candidate->profile->id)->first();
         $experiences        =   Experience::where('profile_id',$candidate->profile->id)->first();
+
+        // dd($EducationalLevels);
 
         if(Auth::user()->hasRole('Candidate')){
             return view('update-profile', compact('candidate','countries','educations','experiences','EducationalLevels'));

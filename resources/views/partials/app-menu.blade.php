@@ -89,9 +89,9 @@
             @endcan
             <!-- Add by shubham -->
             @can('kfupm_user_access')
-            <li class=" nav-item {{ Route::is('admin.kfupm_user.*') ? 'open' : '' }}">
+            {{-- <li class=" nav-item {{ Route::is('admin.kfupm_user.*') ? 'open' : '' }}">
                 <a href="{{ route('admin.kfupm_user.index') }}"><i class="material-icons">assignment_turned_in</i><span class="menu-title">KFUPM</span></a>
-            </li>
+            </li> --}}
             @endcan
             <!-- End -->
             @can('candidate_access')

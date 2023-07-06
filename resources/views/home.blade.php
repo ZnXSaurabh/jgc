@@ -221,7 +221,7 @@
                         <div class="row">
                             <div class="col-4">
                                 <div class="quick-select">
-                                    <a href="https://www.jgc.com.sa/services/engineering/" target="_blank" title="">
+                                    <a href="https://jgc.com.sa/services#engineering" target="_blank" title="">
                                         <i class="la la-bullhorn"></i>
                                         <span>Engineering</span>
                                     </a>
@@ -229,7 +229,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="quick-select">
-                                    <a href="https://www.jgc.com.sa/services/procurement/" target="_blank" title="">
+                                    <a href="https://jgc.com.sa/services#procurement" target="_blank" title="">
                                         <i class="la la-graduation-cap"></i>
                                         <span>Procurement</span>
                                         <!-- <p>(06 open positions)</p> -->
@@ -238,7 +238,7 @@
                             </div>
                             <div class="col-4">
                                 <div class="quick-select">
-                                    <a href="https://www.jgc.com.sa/services/construction-management/" target="_blank"
+                                    <a href="https://jgc.com.sa/services#constructionManagement" target="_blank"
                                         title="">
                                         <i class="la la-line-chart "></i>
                                         <span>Construction Management</span>
