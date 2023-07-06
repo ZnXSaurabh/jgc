@@ -229,7 +229,9 @@ class JobController extends Controller
         $shortlist_candidates['vendors_appliedcandidates'] = JobApplied::where('job_id','=',$jobid)->whereIn('vendors_candidate_id',$shortlist_vendors_candidates_id)->where('status','=','1')->select('id','applied_by','applied_date')->get();
         $shortlist_candidates['vendors_candidate_detail'] = VendorsCandidates::whereIn('id',$shortlist_vendors_candidates_id)->select('id','name','email','phone','dob')->get();
 
-        return view('admin.jobs.show', compact('job','applied_jobs','shortlist_candidates','not_applied_candidates'));
+        $exp = null;
+        $age = null;
+        return view('admin.jobs.show', compact('job','applied_jobs','age','exp','shortlist_candidates','not_applied_candidates'));
   
     }
 

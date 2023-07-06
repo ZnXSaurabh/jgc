@@ -192,7 +192,12 @@ input[type=date]:focus::-webkit-datetime-edit {
                                         <!-- Step 2 -->
                                         <h6>Education Details</h6>
                                         <fieldset class="input_education">
+                                            @if($educations)
                                         @php $levels = json_decode($educations->level, true); @endphp
+                                        @else
+                                        @php $levels = null; 
+                                        @endphp
+                                        @endif
                                         @if($levels !== null)
                                         @foreach($levels as $key => $level)
                                             <div class="row">
@@ -202,8 +207,8 @@ input[type=date]:focus::-webkit-datetime-edit {
                                                         <select name="level[]" class="form-control select2 required">
                                                             <option>Choose Level</option>
                                                             @foreach($EducationalLevels as $EducationalLevel)
-                                                   <option value="{{$EducationalLevel->name}}" @if($EducationalLevel->name == $level) selected @endif>{{$EducationalLevel->name}}</option>
-                                                   @endforeach
+                                                            <option value="{{$EducationalLevel->name}}" @if($EducationalLevel->name == $level) selected @endif>{{$EducationalLevel->name}}</option>
+                                                             @endforeach
                                                         </select>
                                                         <span class="error-message level-error" style="display: none;"></span>
                                                     </div>
@@ -253,7 +258,7 @@ input[type=date]:focus::-webkit-datetime-edit {
                                                 </div>
                                                 <hr>
                                             </div>
-                                            @endforeach
+                                        @endforeach
                                             <div class="row">
                                                 <div class="col-12 add_remvoe_btn">
                                                     <button class="btn btn-info add_education">Add Education</button>
@@ -267,7 +272,7 @@ input[type=date]:focus::-webkit-datetime-edit {
                                                         <select name="level[]" class="form-control select2 required">
                                                             <option>Choose Level</option>
                                                             @foreach($EducationalLevels as $EducationalLevel)
-                                                   <option value="{{$EducationalLevel->name}}" @if($EducationalLevel->name == $level) selected @endif>{{$EducationalLevel->name}}</option>
+                                                   <option value="{{$EducationalLevel->name}}" >{{$EducationalLevel->name}}</option>
                                                    @endforeach
                                                         </select>
                                                         <span class="error-message level-error" style="display: none;"></span>
@@ -523,7 +528,7 @@ $(wrapper).append(
                 '<select name="level[]" class="form-control select2 required">'+
                 '<option>Choose Level</option>'+
                 '@foreach($EducationalLevels as $EducationalLevel)'+
-                '<option value="{{$EducationalLevel->name}}" @if($EducationalLevel->name == $level) selected @endif>{{$EducationalLevel->name}}</option>'+
+                '<option value="{{$EducationalLevel->name}}">{{$EducationalLevel->name}}</option>'+
                 '@endforeach'+
                 '</select>'+
                 '<span class="error-message level-error" style="display: none;"></span>'+

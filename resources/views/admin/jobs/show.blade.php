@@ -388,28 +388,23 @@
                                         <div class="col-lg-4 p-1">
                                             <form action="{{ route('common.applied_filter_by_exp') }}" method="post">
                                                 @csrf
+                                                <?php
+                                                $exp = null; // Assigning the value 3 to $exp
+
+                                                ?>
+
                                                 <select class="form-control mr-1" style="width:50%;float:left" name="exp">
-                                                    <option value=" ">Choose Experience</option>
-                                                    <option value="1" @if('1' == $exp)
-                                                    selected @endif>1</option>
-                                                    <option value="2"@if('2' == $exp)
-                                                    selected @endif>2</option>
-                                                    <option value="3"@if('3' == $exp)
-                                                    selected @endif>3</option>
-                                                    <option value="4"@if('4' == $exp)
-                                                    selected @endif>4</option>
-                                                    <option value="5"@if('5' == $exp)
-                                                    selected @endif>5</option>
-                                                    <option value="6"@if('6' == $exp)
-                                                    selected @endif>6</option>
-                                                    <option value="7"@if('7' == $exp)
-                                                    selected @endif>7</option>
-                                                    <option value="8"@if('8' == $exp)
-                                                    selected @endif>8</option>
-                                                    <option value="9"@if('9' == $exp)
-                                                    selected @endif>9</option>
-                                                    <option value="10"@if('10' == $exp)
-                                                    selected @endif>10</option>
+                                                    <option value=" ">Choose Experience</option>
+                                                    <option value="1" <?php if('1' == $exp) echo 'selected'; ?>>1</option>
+                                                    <option value="2" <?php if('2' == $exp) echo 'selected'; ?>>2</option>
+                                                    <option value="3" <?php if('3' == $exp) echo 'selected'; ?>>3</option>
+                                                    <option value="4" <?php if('4' == $exp) echo 'selected'; ?>>4</option>
+                                                    <option value="5" <?php if('5' == $exp) echo 'selected'; ?>>5</option>
+                                                    <option value="6" <?php if('6' == $exp) echo 'selected'; ?>>6</option>
+                                                    <option value="7" <?php if('7' == $exp) echo 'selected'; ?>>7</option>
+                                                    <option value="8" <?php if('8' == $exp) echo 'selected'; ?>>8</option>
+                                                    <option value="9" <?php if('9' == $exp) echo 'selected'; ?>>9</option>
+                                                    <option value="10" <?php if('10' == $exp) echo 'selected'; ?>>10</option>
                                                 </select>
                                                 <input type="hidden" name="jobid"value="{{$job->id}}">
                                                 <button type="submit" class="btn btn-info mt-0">Filter By Experience</button>
@@ -433,9 +428,14 @@
                                     @if($errors->has('job_id'))
                                                    <p class="text-danger">{{ $errors->first('job_id') }}</p>
                                                 @endif
-                                    @if($applied_jobs['candidate_detail'][0]->name == NULL && $applied_jobs['vendors_candidate_detail'][0] ==NULL)
+
+
+                                    @if(isset($applied_jobs['candidate_detail'][0]->name) && isset($applied_jobs['vendors_candidate_detail'][0]))
+                                    @if($applied_jobs['candidate_detail'][0]->name == NULL && $applied_jobs['vendors_candidate_detail'][0] == NULL)
                                     <h6 class="text-danger">No Result Found</h6>
                                     @endif
+
+                                @endif
                                     </div>
                                 </div>
                                     <table class="table table-bordered table-striped">
@@ -520,10 +520,12 @@
                                                 @endcan
                                             </tr>
                                             @endforeach
-                                            @if($applied_jobs['vendors_candidate_detail'][0]->id !='')
+                                            @if(isset($applied_jobs['vendors_candidate_detail']) && count($applied_jobs['vendors_candidate_detail']) > 0)
+                                            @if(isset($applied_jobs['vendors_candidate_detail'][0]->id) && $applied_jobs['vendors_candidate_detail'][0]->id != '')
                                               @if(!Auth::user()->hasRole('Vendor'))
                                              <tr><th colspan="9" class="text-center">Vendors Candidates</th></tr>
                                              @endif
+                                            @endif
                                             @endif
                                             @foreach($applied_jobs['vendors_candidate_detail'] as $key => $applied_job)
                                             <tr>
@@ -643,8 +645,11 @@
                                     @if($errors->has('job_id'))
                                                    <p class="text-danger">{{ $errors->first('job_id') }}</p>
                                                 @endif
-                                    @if($applied_jobs['candidate_detail'][0]->name == NULL && $applied_jobs['vendors_candidate_detail'][0] ==NULL)
+                                                @if(isset($applied_jobs['candidate_detail'][0]->name) && isset($applied_jobs['vendors_candidate_detail'][0]))
+
+                                                @if($applied_jobs['candidate_detail'][0]->name == NULL && $applied_jobs['vendors_candidate_detail'][0] == NULL)
                                     <h6 class="text-danger">No Result Found</h6>
+                                    @endif
                                     @endif
                                     </div>
                                     <table class="table table-bordered table-striped">
@@ -721,7 +726,7 @@ clear
                                             </tr>
                                             @endif
                                             @endforeach
-                                            @if($shortlist_candidates['vendors_candidate_detail'][0]->id !='')
+                                     @if(isset($shortlist_candidates['vendors_candidate_detail']) && isset($shortlist_candidates['vendors_candidate_detail'][0]) && $shortlist_candidates['vendors_candidate_detail'][0]->id != '')wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
                                                 @if(!Auth::user()->hasRole('Vendor'))
                                              <tr><th colspan="9" class="text-center">Vendors Candidates</th></tr>
                                              @endif
