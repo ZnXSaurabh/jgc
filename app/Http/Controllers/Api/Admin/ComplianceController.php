@@ -177,7 +177,7 @@ class ComplianceController extends Controller
         
                     // save data 
         
-                    $complianceRegister->fileurl = $renameAttachment;
+                    $complianceRegister->fileurl = "/compliance/".$renameAttachment;
                     $complianceRegister->fileName = $fileName;
                     $complianceRegister->FileExt = $FileExt;
                     $complianceRegister->contentType = $contentType;
