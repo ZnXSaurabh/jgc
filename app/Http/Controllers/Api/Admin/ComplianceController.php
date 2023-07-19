@@ -157,15 +157,18 @@ class ComplianceController extends Controller
                 $complianceRegister = new Compliance;
                 $complianceRegister->fullname = $request->fullname;
                 $complianceRegister->email = $request->email;
-                $complianceRegister->mobile = $request->mobile;
+                $complianceRegister->phonenumber = $request->mobile;
                 $complianceRegister->category = $request->category;
                 $complianceRegister->message = $request->message;
-                $complianceRegister->attachment = null;
+                $complianceRegister->fileurl = null;
 
                 if($request->hasfile('attachment')){
 
                     $attachment = $request->file('attachment');
-        
+                    $fileName = $attachment->getClientOriginalName();
+                    $FileExt = $attachment->getClientOriginalExtension();
+                    $contentType = $attachment->getClientMimeType();
+
                     $renameAttachment = rand(100,1000000000).'.'.$attachment->getClientOriginalExtension();
         
                     $attachmentDestination = public_path('/compliance');
@@ -174,7 +177,10 @@ class ComplianceController extends Controller
         
                     // save data 
         
-                    $complianceRegister->attachment = $renameAttachment;
+                    $complianceRegister->fileurl = $renameAttachment;
+                    $complianceRegister->fileName = $fileName;
+                    $complianceRegister->FileExt = $FileExt;
+                    $complianceRegister->contentType = $contentType;
         
                 }
 
@@ -230,7 +236,7 @@ class ComplianceController extends Controller
 
             if($key == "AIzaSyARU2rr8X3qHFSAD3F3434F42RFbrz72oVswps5VMjldNFHW4"){
 
-                $allcompliance = Compliance::select('id','fullname','email','mobile','category','message','attachment')->get();
+                $allcompliance = Compliance::select('id','fullname','email','phonenumber','category','message','fileurl','fileName','FileExt','contentType','status')->get();
 
                 return response($allcompliance, 200);
 
