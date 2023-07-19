@@ -255,6 +255,81 @@ class ComplianceController extends Controller
                 ],500); 
         }
     }
+
+
+    public function updateCompliance(Request $request){
+        try{
+            $key = $request->key;
+            if($key == "AIzaSyARU2rr8X3qHFSAD3F3434F42RFbrz72oVswps5VMjldNFHW4"){
+                
+                $validator = Validator::make($request->all(), [
+                    'id' => 'required',
+                    'status' => 'required',
+                ]);
+    
+                if ($validator->fails()) {
+                    return response()->json([
+                        'error' => 'Validation failed',
+                        'errors' => $validator->errors(),
+                    ], 422); 
+                }
+
+                $complianceRequest = Compliance::where('id',$request->id)->first();                
+                if(!empty($complianceRequest )){
+                    if($request->status == "pass") {
+                        if($complianceRequest->fileurl){
+                            $filePath = public_path($complianceRequest->fileurl);
+                            if (file_exists($filePath)) {
+                                unlink($filePath);
+                            }
+                        }
+    
+                        if($complianceRequest->delete()){
+                            return response([
+                                'message' => "Compliance ID ".$request->id." deleted successfully!!!",
+                                ],200);
+                        }
+                        else{
+                            return response([
+                                'message' => "Oops there is something wrong!!!",
+                                ],500);
+                        }
+                    }
+                    else{
+                        $complianceRequest->status = $request->status;
+                        
+                        if($complianceRequest->save()){
+                            return response([
+                                'message' => "Status updated successfully!!!",
+                                ],200);
+                        }
+                        else{
+                            return response([
+                                'message' => "Oops there is something wrong!!!",
+                                ],500);
+                        }
+                    }
+                }
+                else{
+                    return response([
+                        'message' => "This compliance id does not have any compliance request mapped.",
+                    ],422);
+                }
+            }
+            else{
+                return response([
+                    'message' => "Not Authorized",
+                ],401); 
+            }
+        }
+        catch(Exception $e){
+            return response([
+                    'errors' => $e->message(),
+                    'message' => "Internal Server Error.",
+                ],500); 
+        }
+    }
+
 }
 
 
