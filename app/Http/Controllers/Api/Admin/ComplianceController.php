@@ -236,7 +236,7 @@ class ComplianceController extends Controller
 
             if($key == "AIzaSyARU2rr8X3qHFSAD3F3434F42RFbrz72oVswps5VMjldNFHW4"){
 
-                $allcompliance = Compliance::select('id','fullname','email','phonenumber','category','message','fileurl','fileName','FileExt','contentType','status')->get();
+                $allcompliance = Compliance::select('id','fullname','email','phonenumber','category','message','fileurl','fileName','FileExt','contentType','status','created_at')->get();
 
                 return response($allcompliance, 200);
 
