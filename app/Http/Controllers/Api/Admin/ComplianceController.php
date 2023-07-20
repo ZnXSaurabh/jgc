@@ -11,7 +11,6 @@ use Mail;
 use App\Mail\ComplianceApply;
 use App\Mail\ComplianceRegister;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class ComplianceController extends Controller
 {
@@ -238,17 +237,6 @@ class ComplianceController extends Controller
             if($key == "AIzaSyARU2rr8X3qHFSAD3F3434F42RFbrz72oVswps5VMjldNFHW4"){
 
                 $allcompliance = Compliance::select('id','fullname','email','phonenumber','category','message','fileurl','fileName','FileExt','contentType','status','created_at')->get();
-
-                if(!empty($allcompliance)){
-                    $updateData = array();
-                    foreach($allcompliance as $compliance){
-                        $createdAt = $compliance->created_at;
-                        $createdAtDate = Carbon::parse($createdAt);
-                        $compliance->created_at = $createdAtDate->format('d-m-Y');
-                        array_push($updateData,$compliance);
-                    }
-                    $allcompliance = $updateData;
-                }
 
                 return response($allcompliance, 200);
 
