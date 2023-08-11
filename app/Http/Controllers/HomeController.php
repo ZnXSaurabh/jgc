@@ -60,8 +60,8 @@ class HomeController extends Controller
     public function searchLocation(Request $request)
     {   
         $recent_jobs = Job::orderBy('id','DESC')->where('status','=',1)->where('job_expiry_date' ,'>', date('Y-m-d'))->where('approved_by','!=',NULL)->paginate(7);
-        $total_job = count(Job::orderBy('id','DESC')->where('status',1)->where('approved_by','!=',NULL)->get());
-        $jobs  = Job::where('location_id', $request->location)->Where('status',1)->where('approved_by','!=',NULL)->paginate(7);
+        $total_job = count(Job::orderBy('id','DESC')->where('location_id','=',$request->location)->where('status','=',1)->where('job_expiry_date' ,'>', date('Y-m-d'))->where('approved_by','!=',NULL)->get());
+        $jobs  = Job::where('location_id','=',$request->location)->where('job_expiry_date' ,'>', date('Y-m-d'))->Where('status',1)->where('approved_by','!=',NULL)->paginate(7);
         $locations  = Location::all();
         $jobtypes  = JobType::where('status',1)->get();
         $departments  = Department::where('status','=','1')->get();
