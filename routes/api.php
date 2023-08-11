@@ -59,6 +59,7 @@ Route::middleware('auth:api')->group( function () {
 // Api for compliance
 
 Route::post('/compliance/v2/list', [ComplianceController::class,'complianceList']);
+Route::post('/compliance/v2/update-status', [ComplianceController::class,'updateCompliance']);
 Route::post('/compliance', [ComplianceController::class,'apply']);
 Route::get('/getCompliance/{token}', [ComplianceController::class,'getCompliance']);
 Route::post('/registerCompliance/{token}', [ComplianceController::class,'registerCompliance']);
