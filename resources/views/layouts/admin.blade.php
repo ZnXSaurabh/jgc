@@ -25,9 +25,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/css/intlTelInput.css">
     <!-- jquery datepicker -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
-<!-- End jquery datepicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
+    <!-- End jquery datepicker -->
     <style>
     .intl-tel-input {
       display: block;
