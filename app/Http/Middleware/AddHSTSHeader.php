@@ -16,8 +16,8 @@ class AddHSTSHeader
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $response->headers('X-Content-Type-Options', 'nosniff');
-        $response->headers('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+        $response->header('X-Content-Type-Options', 'nosniff');
+        $response->header('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
         return $response;
     }
 }
