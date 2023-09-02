@@ -32,5 +32,7 @@ return [
      */
     'nonce_generator' => Spatie\Csp\Nonce\RandomString::class,
 
-    'style-src' => ["'self'", "'unsafe-inline'"],
+    'style-src' => ["'self'", "'nonce-EhDQ6MA7Ak5hMPdvgGITQUGgOHGZuWXW'", "'unsafe-inline'", "'https://cdnjs.cloudflare.com'"],
+
+    'script-src' => ["'self'", "'https://cdnjs.cloudflare.com'", "'https://www.google.com'"]
 ];
