@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\AuthGates::class,
             \App\Http\Middleware\SetLocale::class,
             \Spatie\Csp\AddCspHeaders::class,
+            \App\Http\Middleware\AddHSTSHeader::class,
         ],
 
         'api' => [
