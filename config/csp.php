@@ -31,4 +31,6 @@ return [
      * The class responsible for generating the nonces used in inline tags and headers.
      */
     'nonce_generator' => Spatie\Csp\Nonce\RandomString::class,
+
+    'style-src' => ["'self'", "'unsafe-inline'"],
 ];
