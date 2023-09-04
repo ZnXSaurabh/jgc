@@ -34,13 +34,8 @@ return [
 
     'style-src' => [
         "'self'",
-        // "'nonce-6VV3Rw1GXaeqvbwEsqEhagomeyQwDOZ4'",
-        'https://cdnjs.cloudflare.com', // Allow styles from this domain
-    ],
-
-    "style-src-elem" => [
-        "'self'",
-        // "'nonce-6VV3Rw1GXaeqvbwEsqEhagomeyQwDOZ4'",
+        "'nonce-6VV3Rw1GXaeqvbwEsqEhagomeyQwDOZ4'",
+        "'unsafe-inline'",
         'https://cdnjs.cloudflare.com', // Allow styles from this domain
     ],
 ];
