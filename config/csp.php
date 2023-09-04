@@ -34,8 +34,8 @@ return [
 
     'style-src' => [
         "'self'",
-        "'nonce-6VV3Rw1GXaeqvbwEsqEhagomeyQwDOZ4'",
         "'unsafe-inline'",
-        'https://cdnjs.cloudflare.com', // Allow styles from this domain
+        'https://cdnjs.cloudflare.com', // Allow styles from this domain,
+        'https://fonts.googleapis.com',
     ],
 ];
