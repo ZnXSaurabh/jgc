@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/forms/selects/select2.min.css') }}">
-<style>
+<style  nonce="{{ csp_nonce() }}">
 .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
     margin:10px;
 }

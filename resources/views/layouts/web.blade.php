@@ -28,7 +28,7 @@
 		<!-- End jquery datepicker -->
 		@yield('styles')
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/css/intlTelInput.css">
-		<style>
+		<style  nonce="{{ csp_nonce() }}">
 		.intl-tel-input {
 		  display: table-cell;
 		}

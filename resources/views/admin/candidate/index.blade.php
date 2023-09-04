@@ -14,7 +14,7 @@
 
 <!-- end tables links -->
 
-<style>
+<style  nonce="{{ csp_nonce() }}">
 
 .table tbody td:last-child{
 

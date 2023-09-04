@@ -1,6 +1,6 @@
 @extends('layouts.web')
 @section('styles')
-<style type="text/css">
+<style type="text/css"  nonce="{{ csp_nonce() }}">
     .job-overview {
         border: unset !important;
     }

@@ -4,16 +4,16 @@
 		<title></title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<style type="text/css">  #outlook a { padding: 0; }  .ReadMsgBody { width: 100%; }  .ExternalClass { width: 100%; }  .ExternalClass * { line-height:100%; }  body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }  table, td { border-collapse:collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }  img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }  p { display: block; margin: 13px 0; }
+		<style type="text/css"  nonce="{{ csp_nonce() }}">  #outlook a { padding: 0; }  .ReadMsgBody { width: 100%; }  .ExternalClass { width: 100%; }  .ExternalClass * { line-height:100%; }  body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }  table, td { border-collapse:collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }  img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }  p { display: block; margin: 13px 0; }
 		</style>
-		<style type="text/css">
+		<style type="text/css"  nonce="{{ csp_nonce() }}">
 		@media only screen and (max-width:480px) {    @-ms-viewport { width:320px; }    @viewport { width:320px; }  }
 		</style>
 		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
-		<style type="text/css">
+		<style type="text/css"  nonce="{{ csp_nonce() }}">
 		@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 		</style>
-		<style type="text/css">
+		<style type="text/css"  nonce="{{ csp_nonce() }}">
 		@media only screen and (min-width:480px) {.mj-column-per-100 { width:100%!important; }}
 		</style>
 	</head>
