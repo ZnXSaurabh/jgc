@@ -37,4 +37,10 @@ return [
         // "'nonce-6VV3Rw1GXaeqvbwEsqEhagomeyQwDOZ4'",
         'https://cdnjs.cloudflare.com', // Allow styles from this domain
     ],
+
+    "style-src-elem" => [
+        "'self'",
+        // "'nonce-6VV3Rw1GXaeqvbwEsqEhagomeyQwDOZ4'",
+        'https://cdnjs.cloudflare.com', // Allow styles from this domain
+    ],
 ];
