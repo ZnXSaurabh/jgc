@@ -4,6 +4,7 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
+	frame-src 'self' https://www.google.com;
     script-src 'self' https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com 'unsafe-inline';
     style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline';
     img-src 'self';
