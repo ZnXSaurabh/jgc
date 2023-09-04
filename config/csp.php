@@ -35,7 +35,9 @@ return [
     'style-src' => [
         "'self'",
         "'unsafe-inline'",
+        "'unsafe-hashes'",
         'https://cdnjs.cloudflare.com', // Allow styles from this domain,
         'https://fonts.googleapis.com',
+
     ],
 ];
