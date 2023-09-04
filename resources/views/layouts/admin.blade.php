@@ -2,6 +2,13 @@
 <html class="loading" lang="en" data-textdirection="ltr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+	frame-src 'self' https://www.google.com;
+    script-src 'self' https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com 'unsafe-inline';
+    style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline';
+    img-src 'self';
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com;" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="description" content="">
