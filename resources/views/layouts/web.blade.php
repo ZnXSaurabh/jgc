@@ -4,10 +4,10 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' https://cdnjs.cloudflare.com https://www.google.com 'unsafe-inline';
+    script-src 'self' https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com 'unsafe-inline';
     style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline';
     img-src 'self';
-    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;" />
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com;" />
 
 		<meta name="author" content="GIKSINDIA">
 		<title>{{ trans('global.site_title') }}</title>
