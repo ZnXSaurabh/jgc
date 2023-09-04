@@ -2,6 +2,12 @@
 <html>
 	<head>
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
+		<meta http-equiv="Content-Security-Policy" content="
+		default-src 'self';
+		script-src 'self' https://cdn.jsdelivr.net;
+		style-src 'self' https://cdn.jsdelivr.net;
+		img-src 'self' ;
+		font-src 'self' https://fonts.googleapis.com;" />
 		<meta name="author" content="GIKSINDIA">
 		<title>{{ trans('global.site_title') }}</title>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
