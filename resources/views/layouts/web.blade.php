@@ -4,8 +4,8 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
 		<meta http-equiv="Content-Security-Policy" content="
 		default-src 'self';
-		script-src 'self' https://cdn.jsdelivr.net;
-		style-src 'self' https://cdn.jsdelivr.net;
+		script-src 'self' https://cdnjs.cloudflare.com;
+		style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
 		img-src 'self' ;
 		font-src 'self' https://fonts.googleapis.com;" />
 		<meta name="author" content="GIKSINDIA">
