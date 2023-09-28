@@ -38,6 +38,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\AuthGates::class,
             \App\Http\Middleware\SetLocale::class,
+            // \Spatie\Csp\AddCspHeaders::class,
+            \App\Http\Middleware\AddHSTSHeader::class,
         ],
 
         'api' => [

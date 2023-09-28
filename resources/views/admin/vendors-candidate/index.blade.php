@@ -6,7 +6,7 @@
 <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <link href="{{ asset('filter-each-column/Filter.css')}}" rel="stylesheet">
 <!-- end tables links -->
-<style>
+<style  nonce="{{ csp_nonce() }}">
 .table tbody td:last-child{
     padding: 8px 14px;
 }

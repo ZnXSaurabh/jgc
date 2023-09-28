@@ -1,6 +1,6 @@
 @extends('layouts.web')
 @section('styles')
-<style type="text/css">
+<style type="text/css"  nonce="{{ csp_nonce() }}">
 .add_education,
 .add_experience{
     font-size: 14px;

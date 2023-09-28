@@ -2,6 +2,13 @@
 <html class="loading" lang="en" data-textdirection="ltr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+	frame-src 'self' https://www.google.com;
+    script-src 'self' https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com 'unsafe-inline';
+    style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline';
+    img-src 'self';
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com;" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="description" content="">
@@ -25,10 +32,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/css/intlTelInput.css">
     <!-- jquery datepicker -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
-<!-- End jquery datepicker -->
-    <style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
+    <!-- End jquery datepicker -->
+    <style  nonce="{{ csp_nonce() }}">
     .intl-tel-input {
       display: block;
     }

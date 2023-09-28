@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<style>
+<style  nonce="{{ csp_nonce() }}">
 .intl-tel-input {
     display: table-cell;
 }

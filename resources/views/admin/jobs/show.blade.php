@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('styles')
-<style>
+<style  nonce="{{ csp_nonce() }}">
     .content-wrapper {
         padding: 2.1rem 1rem 0 !important;
     }

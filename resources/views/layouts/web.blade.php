@@ -2,6 +2,14 @@
 <html>
 	<head>
 		<meta name="csrf-token" content="{{ csrf_token() }}" />
+		<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+	frame-src 'self' https://www.google.com;
+    script-src 'self' https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com 'unsafe-inline';
+    style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline';
+    img-src 'self';
+    font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://maxcdn.bootstrapcdn.com;" />
+
 		<meta name="author" content="GIKSINDIA">
 		<title>{{ trans('global.site_title') }}</title>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -21,12 +29,14 @@
 		<link rel="stylesheet" href="{{ asset('front/css/bootstrap.css') }}">
 		<link rel="stylesheet" href="{{ asset('front/css/font-awesome.min.css') }}">
 		    <!-- jquery datepicker -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css">
-<!-- End jquery datepicker -->
+		<link rel="stylesheet" href="{{ asset('front/jquery/jquery-ui.min.css') }}">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+		<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+		<!-- <link rel="stylesheet" href="https:://jqueryui.com/resources/demos/style.css"> -->
+		<!-- End jquery datepicker -->
 		@yield('styles')
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/8.4.6/css/intlTelInput.css">
-		<style>
+		<style  nonce="{{ csp_nonce() }}">
 		.intl-tel-input {
 		  display: table-cell;
 		}
@@ -117,8 +127,12 @@
 		</form>
 		<script data-cfasync="false" src="{{ asset('front/js/email-decode.min.js') }}"></script>
 		<!-- <script src="{{ asset('front/js/jquery.min.js') }}" type="text/javascript"></script> -->
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+		<!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> -->
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+		<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+		<script src="{{ asset('front/jquery/jquery-ui.js') }}" type="text/javascript"></script>
+		<script src="{{ asset('front/jquery/jquery.min.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/modernizr.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/script.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('front/js/bootstrap.min.js') }}" type="text/javascript"></script>

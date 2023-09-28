@@ -2,7 +2,7 @@
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/vendors/css/forms/selects/select2.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('app-assets/css/plugins/forms/wizard.min.css') }}">
-<style type="text/css">
+<style type="text/css"  nonce="{{ csp_nonce() }}">
 .add_education,
 .add_experience{
     font-size: 14px;
