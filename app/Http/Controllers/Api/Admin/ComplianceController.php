@@ -143,7 +143,6 @@ class ComplianceController extends Controller
                     'fullname' => 'nullable|max:185',
                     'category' => 'required|max:185',
                     'message' => 'required|max:255',
-                    'attachment' => 'nullable|mimes:pdf,doc,docx,jpg,jpef,png|max:50000',
                 ]);
             
                 if ($validator->fails()) {
