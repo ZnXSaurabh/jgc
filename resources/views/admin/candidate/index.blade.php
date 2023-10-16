@@ -266,7 +266,14 @@
                                             
                                             @if(!Auth::user()->hasRole('Vendor')) 
 
-                                            <td>{{ \Carbon\Carbon::parse($users['profile'][$key]->dob)->age }}</td>
+                                            @php
+                                                $dob = $users['profile'][$key]->dob;
+                                            @endphp
+
+                                            @if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob))
+                                                <td>{{ \Carbon\Carbon::parse($dob)->age }}</td>
+                                                
+                                            @endif
 
                                             @else
 
