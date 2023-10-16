@@ -272,6 +272,8 @@
 
                                             @if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob))
                                                 <td>{{ \Carbon\Carbon::parse($dob)->age }}</td>
+                                            @else
+                                            <td><td>
                                                 
                                             @endif
 
