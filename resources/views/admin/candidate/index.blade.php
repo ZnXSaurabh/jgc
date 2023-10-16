@@ -256,6 +256,11 @@
 
                                         @foreach($users['candidate_detail'] as $key => $candidate)
 
+                                        
+                                        @php
+                                                $dob = $users['profile'][$key]->dob;
+                                        @endphp
+
                                         <tr>
 
                                             <td>{{$key+1}}</td>
@@ -266,14 +271,14 @@
                                             
                                             @if(!Auth::user()->hasRole('Vendor')) 
 
-                                            @php
-                                                $dob = $users['profile'][$key]->dob;
-                                            @endphp
-
                                             @if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob))
+
                                                 <td>{{ \Carbon\Carbon::parse($dob)->age }}</td>
+
                                             @else
-                                            <td><td>
+
+                                            <td></td>
+
                                                 
                                             @endif
 
